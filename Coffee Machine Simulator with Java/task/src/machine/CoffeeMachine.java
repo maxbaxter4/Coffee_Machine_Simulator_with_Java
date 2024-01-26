@@ -8,7 +8,7 @@ public class CoffeeMachine {
 
         Scanner scanner = new Scanner(System.in);
 
-        Machine machine = new Machine(400, 540, 120, 9, 550);
+        Machine machine = new Machine();
         String input;
 
         do {

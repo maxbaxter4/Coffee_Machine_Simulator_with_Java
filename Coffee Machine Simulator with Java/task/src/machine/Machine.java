@@ -11,12 +11,12 @@ public class Machine {
     private int money;
     private final static Scanner SCANNER = new Scanner(System.in);
 
-    public Machine(int water, int milk, int coffee, int cups, int money) {
-        this.water = water;
-        this.milk = milk;
-        this.coffee = coffee;
-        this.cups = cups;
-        this.money = money;
+    public Machine() {
+        this.water = Resources.WATER.getValue();
+        this.milk = Resources.MILK.getValue();
+        this.coffee = Resources.COFFEE.getValue();
+        this.cups = Resources.CUPS.getValue();
+        this.money = Resources.MONEY.getValue();
     }
 
     public void processing(String input) {
