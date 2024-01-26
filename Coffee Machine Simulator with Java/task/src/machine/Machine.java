@@ -22,96 +22,16 @@ public class Machine {
     public void processing(String input) {
 
         switch (input.toLowerCase(Locale.ROOT)) {
-            case "buy": {
-                System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
-                int choice = 0;
-                try {
-                    choice = Integer.parseInt(SCANNER.nextLine());
-                } catch (NumberFormatException e) {
-                    e.fillInStackTrace();
-                }
-                if (choice == 1) {
+            case "buy" -> buy();
 
-                    if (water >= 250 && coffee >= 16) {
-                        System.out.println("I have enough resources, making you a coffee!");
-                        water -= 250;
-                        coffee -= 16;
-                        cups -= 1;
-                        money += 4;
-                    } else if (water < 250) {
-                        System.out.println("Sorry, not enough water!");
-                    } else {
-                        System.out.println("Sorry, not enough coffee!");
-                    }
+            case "fill" -> fillMachine();
 
-                } else if (choice == 2) {
+            case "remaining" -> print();
 
-                    if (water >= 350 && milk >= 75 && coffee >= 20) {
-                        System.out.println("I have enough resources, making you a coffee!");
-                        water -= 350;
-                        milk -= 75;
-                        coffee -= 20;
-                        cups -= 1;
-                        money += 7;
-                    } else if (water < 350) {
-                        System.out.println("Sorry, not enough water!");
-                    } else if (milk < 75) {
-                        System.out.println("Sorry, not enough coffee!");
-                    } else {
-                        System.out.println("Sorry, not enough coffee!");
-                    }
-
-
-                } else if (choice == 3) {
-
-                    if (water >= 200 && milk >= 100 && coffee >= 12) {
-                        System.out.println("I have enough resources, making you a coffee!");
-                        water -= 200;
-                        milk -= 100;
-                        coffee -= 12;
-                        cups -= 1;
-                        money += 6;
-                    } else if (water < 200) {
-                        System.out.println("Sorry, not enough water!");
-                    } else if (milk < 100) {
-                        System.out.println("Sorry, not enough coffee!");
-                    } else {
-                        System.out.println("Sorry, not enough coffee!");
-                    }
-
-
-                }
-            }
-            break;
-            case "fill": {
-                System.out.println("Write how many ml of water you want to add: ");
-                var waterToAdd = Integer.parseInt(SCANNER.nextLine());
-                water += waterToAdd;
-                System.out.println("Write how many ml of milk you want to add: ");
-                var milkToAdd = Integer.parseInt(SCANNER.nextLine());
-                milk += milkToAdd;
-                System.out.println("Write how many grams of coffee beans you want to add:");
-                var coffeeToAdd = Integer.parseInt(SCANNER.nextLine());
-                coffee += coffeeToAdd;
-                System.out.println("Write how many disposable cups you want to add:");
-                var cupsToAdd = Integer.parseInt(SCANNER.nextLine());
-                cups += cupsToAdd;
-
-            }
-            break;
-            case "remaining": {
-                print(water, milk, coffee, cups, money);
-            }
-            break;
-            case "take": {
-                System.out.printf("I gave you $%d\n", money);
-                money -= money;
-            }
-            break;
+            case "take" -> takeMoney();
         }
     }
-    private static void print(
-            int water, int milk,int coffee,int cups,int money){
+    private void print(){
 
         System.out.println("The coffee machine has:");
         System.out.printf("%d ml of water\n", water);
@@ -121,6 +41,90 @@ public class Machine {
         System.out.printf("$%d of money\n", money);
 
     }
+    private void buy(){
+        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
+        int choice = 0;
+        try {
+            choice = Integer.parseInt(SCANNER.nextLine());
+        } catch (NumberFormatException e) {
+            e.fillInStackTrace();
+        }
+        switch(choice){
+            case 1 -> buyEspresso();
+            case 2 -> buyLatte();
+            case 3 -> buyCappuccino();
+            //default -> throw new NumberFormatException();
+        }
+    }
+ 
+    private void fillMachine() {
+        System.out.println("Write how many ml of water you want to add: ");
+        var waterToAdd = Integer.parseInt(SCANNER.nextLine());
+        water += waterToAdd;
+        System.out.println("Write how many ml of milk you want to add: ");
+        var milkToAdd = Integer.parseInt(SCANNER.nextLine());
+        milk += milkToAdd;
+        System.out.println("Write how many grams of coffee beans you want to add:");
+        var coffeeToAdd = Integer.parseInt(SCANNER.nextLine());
+        coffee += coffeeToAdd;
+        System.out.println("Write how many disposable cups you want to add:");
+        var cupsToAdd = Integer.parseInt(SCANNER.nextLine());
+        cups += cupsToAdd;
+    }
+
+    private void takeMoney(){
+        System.out.printf("I gave you $%d\n", money);
+        money -= money;
+    }
+
+    private void buyEspresso(){
+        if (water >= 250 && coffee >= 16) {
+            System.out.println("I have enough resources, making you a coffee!");
+            water -= 250;
+            coffee -= 16;
+            cups -= 1;
+            money += 4;
+        } else if (water < 250) {
+            System.out.println("Sorry, not enough water!");
+        } else {
+            System.out.println("Sorry, not enough coffee!");
+        }
+    }
+
+    private void buyLatte(){
+        if (water >= 350 && milk >= 75 && coffee >= 20) {
+            System.out.println("I have enough resources, making you a coffee!");
+            water -= 350;
+            milk -= 75;
+            coffee -= 20;
+            cups -= 1;
+            money += 7;
+        } else if (water < 350) {
+            System.out.println("Sorry, not enough water!");
+        } else if (milk < 75) {
+            System.out.println("Sorry, not enough coffee!");
+        } else {
+            System.out.println("Sorry, not enough coffee!");
+        }
+    }
+    private void buyCappuccino(){
+
+        if (water >= 200 && milk >= 100 && coffee >= 12) {
+            System.out.println("I have enough resources, making you a coffee!");
+            water -= 200;
+            milk -= 100;
+            coffee -= 12;
+            cups -= 1;
+            money += 6;
+        } else if (water < 200) {
+            System.out.println("Sorry, not enough water!");
+        } else if (milk < 100) {
+            System.out.println("Sorry, not enough coffee!");
+        } else {
+            System.out.println("Sorry, not enough coffee!");
+        }
+    }
+
 }
 
 
