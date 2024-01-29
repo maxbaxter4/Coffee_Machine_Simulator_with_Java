@@ -6,6 +6,7 @@ public class CoffeeMachine {
 
     public static void main(String[] args) {
 
+      //  /Users/maxbaxter/IdeaProjects/Coffee Machine Simulator with Java/Storage.txt
         Scanner scanner = new Scanner(System.in);
 
         Machine machine = new Machine();

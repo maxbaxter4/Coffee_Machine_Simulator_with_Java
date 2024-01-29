@@ -1,5 +1,10 @@
 package machine;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -11,12 +16,32 @@ public class Machine {
     private int money;
     private final static Scanner SCANNER = new Scanner(System.in);
 
+//    public Machine() {
+//        this.water = Resources.WATER.getValue();
+//        this.milk = Resources.MILK.getValue();
+//        this.coffee = Resources.COFFEE.getValue();
+//        this.cups = Resources.CUPS.getValue();
+//        this.money = Resources.MONEY.getValue();
+//    }
     public Machine() {
-        this.water = Resources.WATER.getValue();
-        this.milk = Resources.MILK.getValue();
-        this.coffee = Resources.COFFEE.getValue();
-        this.cups = Resources.CUPS.getValue();
-        this.money = Resources.MONEY.getValue();
+        var file = "Storage.txt";
+       try (BufferedReader reader = new BufferedReader(
+               new FileReader(file))){
+           var water = reader.readLine();
+           var milk = reader.readLine();
+           var coffee = reader.readLine();
+           var cups = reader.readLine();
+           var money = reader.readLine();
+
+           this.water = Integer.parseInt(water);
+           this.milk = Integer.parseInt(milk);
+           this.coffee = Integer.parseInt(coffee);
+           this.cups = Integer.parseInt(cups);
+           this.money = Integer.parseInt(money);
+       } catch (IOException e) {
+           throw new RuntimeException(e);
+       }
+
     }
 
     public void processing(String input) {
@@ -53,7 +78,6 @@ public class Machine {
             case 1 -> buyEspresso();
             case 2 -> buyLatte();
             case 3 -> buyCappuccino();
-            //default -> throw new NumberFormatException();
         }
     }
  
