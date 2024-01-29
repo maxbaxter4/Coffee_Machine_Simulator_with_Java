@@ -1,53 +1,70 @@
 package machine;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class Machine {
-    private int water;
-    private int milk;
-    private int coffee;
-    private int cups;
-    private int money;
+    protected int water;
+    protected int milk;
+    protected int coffee;
+    protected int cups;
+    protected int money;
     private final static Scanner SCANNER = new Scanner(System.in);
 
-//    public Machine() {
-//        this.water = Resources.WATER.getValue();
-//        this.milk = Resources.MILK.getValue();
-//        this.coffee = Resources.COFFEE.getValue();
-//        this.cups = Resources.CUPS.getValue();
-//        this.money = Resources.MONEY.getValue();
-//    }
     public Machine() {
-        var file = "Storage.txt";
-       try (BufferedReader reader = new BufferedReader(
-               new FileReader(file))){
-           var water = reader.readLine();
-           var milk = reader.readLine();
-           var coffee = reader.readLine();
-           var cups = reader.readLine();
-           var money = reader.readLine();
-
-           this.water = Integer.parseInt(water);
-           this.milk = Integer.parseInt(milk);
-           this.coffee = Integer.parseInt(coffee);
-           this.cups = Integer.parseInt(cups);
-           this.money = Integer.parseInt(money);
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
-
+        this.water = Resources.WATER.getValue();
+        this.milk = Resources.MILK.getValue();
+        this.coffee = Resources.COFFEE.getValue();
+        this.cups = Resources.CUPS.getValue();
+        this.money = Resources.MONEY.getValue();
     }
+
+    public int getWater() {
+        return water;
+    }
+
+    public int getMilk() {
+        return milk;
+    }
+
+    public int getCoffee() {
+        return coffee;
+    }
+
+    public int getCups() {
+        return cups;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setWater(int water) {
+        this.water = water;
+    }
+
+    public void setMilk(int milk) {
+        this.milk = milk;
+    }
+
+    public void setCoffee(int coffee) {
+        this.coffee = coffee;
+    }
+
+    public void setCups(int cups) {
+        this.cups = cups;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+
 
     public void processing(String input) {
 
         switch (input.toLowerCase(Locale.ROOT)) {
-            case "buy" -> buy();
+            case "buy" -> buyCoffee();
 
             case "fill" -> fillMachine();
 
@@ -66,7 +83,7 @@ public class Machine {
         System.out.printf("$%d of money\n", money);
 
     }
-    private void buy(){
+    private void buyCoffee(){
         System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
         int choice = 0;
         try {
@@ -102,51 +119,20 @@ public class Machine {
     }
 
     private void buyEspresso(){
-        if (water >= 250 && coffee >= 16) {
-            System.out.println("I have enough resources, making you a coffee!");
-            water -= 250;
-            coffee -= 16;
-            cups -= 1;
-            money += 4;
-        } else if (water < 250) {
-            System.out.println("Sorry, not enough water!");
-        } else {
-            System.out.println("Sorry, not enough coffee!");
-        }
-    }
+
+        Customer customer = new Espresso();
+        customer.buy(this);
+  }
 
     private void buyLatte(){
-        if (water >= 350 && milk >= 75 && coffee >= 20) {
-            System.out.println("I have enough resources, making you a coffee!");
-            water -= 350;
-            milk -= 75;
-            coffee -= 20;
-            cups -= 1;
-            money += 7;
-        } else if (water < 350) {
-            System.out.println("Sorry, not enough water!");
-        } else if (milk < 75) {
-            System.out.println("Sorry, not enough coffee!");
-        } else {
-            System.out.println("Sorry, not enough coffee!");
-        }
+        Customer customer = new Latte();
+        customer.buy(this);
+
     }
     private void buyCappuccino(){
+        Customer customer = new Cappuccino();
+        customer.buy(this);
 
-        if (water >= 200 && milk >= 100 && coffee >= 12) {
-            System.out.println("I have enough resources, making you a coffee!");
-            water -= 200;
-            milk -= 100;
-            coffee -= 12;
-            cups -= 1;
-            money += 6;
-        } else if (water < 200) {
-            System.out.println("Sorry, not enough water!");
-        } else if (milk < 100) {
-            System.out.println("Sorry, not enough coffee!");
-        } else {
-            System.out.println("Sorry, not enough coffee!");
-        }
     }
 
 }
