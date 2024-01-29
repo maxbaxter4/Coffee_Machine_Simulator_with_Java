@@ -14,7 +14,6 @@ public class CoffeeMachine {
             System.out.println("Write action (buy, fill, take, remaining, exit):");
             input = scanner.nextLine();
             machine.processing(input);
-
         } while (!input.equals("exit"));
 
     }
