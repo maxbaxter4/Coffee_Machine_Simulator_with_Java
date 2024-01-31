@@ -36,7 +36,7 @@ public class CoffeeMachine {
     private void orderCoffee(){
         System.out.println("What do you want to buy? " +
                 "1 - espresso, 2 - latte, 3 - cappuccino:");
-        int choice = 0;
+        int choice;
         try {
             choice = Integer.parseInt(SCANNER.nextLine());
             switch(choice){
