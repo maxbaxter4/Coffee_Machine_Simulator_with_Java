@@ -22,7 +22,7 @@ public class CoffeeMachine {
             System.out.println("Write action (buy, fill, take, remaining, exit):");
             input = SCANNER.nextLine();
             switch (input.toLowerCase(Locale.ROOT)) {
-                case "buy" -> buyCoffee();
+                case "buy" -> orderCoffee();
 
                 case "fill" -> fillMachine();
 
@@ -33,7 +33,7 @@ public class CoffeeMachine {
         } while (!input.equals("exit"));
     }
 
-    private void buyCoffee(){
+    private void orderCoffee(){
         System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
         int choice = 0;
         try {
@@ -42,9 +42,44 @@ public class CoffeeMachine {
             e.fillInStackTrace();
         }
         switch(choice){
-            case 1 -> new Coffee().make("espresso");
-            case 2 -> new Coffee().make("latte");
-            case 3 -> new Coffee().make("cappuccino");
+            case 1 -> make("espresso");
+            case 2 -> make("latte");
+            case 3 -> make("cappuccino");
+        }
+    }
+    private enum Recipe{
+        ESPRESSO(250, 0, 16, 1, 4),
+        LATTE(350, 75, 20, 1, 7),
+        CAPPUCCINO(200, 100, 12, 1, 6);
+        final int water, milk, coffeeBeans, cups, money;
+
+        Recipe(int water, int milk, int coffeeBeans, int cups, int money) {
+            this.water = water;
+            this.milk = milk;
+            this.coffeeBeans = coffeeBeans;
+            this.cups = cups;
+            this.money = money;
+        }
+
+    }
+    public void make(String coffeeType) {
+
+        Recipe drink = Recipe.valueOf(coffeeType.toUpperCase());
+        if (water >= drink.water
+                && milk >= drink.milk
+                && coffee >= drink.coffeeBeans) {
+            System.out.println("I have enough resources, making you a coffee!");
+            water -= drink.water;
+            milk -= drink.milk;
+            coffee -= drink.coffeeBeans;
+            cups -= drink.cups;
+            money += drink.money;
+        } else if (water < drink.water) {
+            System.out.println("Sorry, not enough water!");
+        } else if (milk < drink.milk) {
+            System.out.println("Sorry, not enough milk!");
+        }else {
+            System.out.println("Sorry, not enough coffee!");
         }
     }
 
@@ -64,45 +99,6 @@ public class CoffeeMachine {
         System.out.printf("%d g of coffee beans\n", coffee);
         System.out.printf("%d disposable cups\n", cups);
         System.out.printf("$%d of money\n", money);
-    }
-
-    private enum Recipe{
-        ESPRESSO(250, 0, 16, 1, 4),
-        LATTE(350, 75, 20, 1, 7),
-        CAPPUCCINO(200, 100, 12, 1, 6);
-        final int water, milk, coffeeBeans, cups, money;
-
-        Recipe(int water, int milk, int coffeeBeans, int cups, int money) {
-            this.water = water;
-            this.milk = milk;
-            this.coffeeBeans = coffeeBeans;
-            this.cups = cups;
-            this.money = money;
-        }
-
-    }
-    private class Coffee {
-        public void make(String coffeeType) {
-
-            var drink = Recipe.valueOf(coffeeType.toUpperCase());
-
-            if (water >= drink.water
-                    && milk >= drink.milk
-                    && coffee >= drink.coffeeBeans) {
-                System.out.println("I have enough resources, making you a coffee!");
-                water -= drink.water;
-                milk -= drink.milk;
-                coffee -= drink.coffeeBeans;
-                cups -= drink.cups;
-                money += drink.money;
-            } else if (water < drink.water) {
-                System.out.println("Sorry, not enough water!");
-            } else if (milk < drink.milk) {
-                System.out.println("Sorry, not enough milk!");
-            }else {
-                System.out.println("Sorry, not enough coffee!");
-            }
-        }
     }
 
     private class Service implements Worker{
