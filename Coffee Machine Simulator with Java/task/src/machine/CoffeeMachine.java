@@ -34,17 +34,19 @@ public class CoffeeMachine {
     }
 
     private void orderCoffee(){
-        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
+        System.out.println("What do you want to buy? " +
+                "1 - espresso, 2 - latte, 3 - cappuccino:");
         int choice = 0;
         try {
             choice = Integer.parseInt(SCANNER.nextLine());
+            switch(choice){
+                case 1 -> make("espresso");
+                case 2 -> make("latte");
+                case 3 -> make("cappuccino");
+            }
         } catch (NumberFormatException e) {
-            e.fillInStackTrace();
-        }
-        switch(choice){
-            case 1 -> make("espresso");
-            case 2 -> make("latte");
-            case 3 -> make("cappuccino");
+            System.out.println("Invalid input." +
+                    " Please enter a number from 1 to 3.");
         }
     }
     private enum Recipe{
